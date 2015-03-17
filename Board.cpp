@@ -36,3 +36,7 @@ std::ostream& operator<<(std::ostream &os, const Board &brd)
     return os ;
 }
 
+Board::BoardSize Board::getSize()
+{
+    return N;
+}

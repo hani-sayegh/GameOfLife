@@ -5,6 +5,7 @@
 class Simulator
 {
     public:
+        Simulator();
         void simulate(Board&);
 
 };

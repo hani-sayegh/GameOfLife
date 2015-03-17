@@ -4,13 +4,15 @@
 
 class Board
 {
-    using BoardSize = std::vector<std::vector<std::string>>::size_type;
-
-    friend std::ostream &operator<<(std::ostream &, const Board &);
     public:
-    Board();
+        using BoardSize = std::vector<std::vector<std::string>>::size_type;
+
+        friend std::ostream &operator<<(std::ostream &, const Board &);
+    public:
+        Board();
+        BoardSize getSize();
 
     private:
-    std::vector<std::vector<std::string>> board;
-    BoardSize N = board.size();
+        std::vector<std::vector<std::string>> board;
+        BoardSize N = board.size();
 };
