@@ -1,5 +1,6 @@
 #include "Board.h"
 #include <ostream>
+#include <string>
 
 Board::Board() // Default board is 10 x 10
 {
@@ -21,6 +22,7 @@ Board::Board() // Default board is 10 x 10
             board.push_back(v);
         }
     }
+    N = board.size();
 }
 
 std::ostream& operator<<(std::ostream &os, const Board &brd)
@@ -36,7 +38,18 @@ std::ostream& operator<<(std::ostream &os, const Board &brd)
     return os ;
 }
 
-Board::BoardSize Board::getSize()
+Board::BoardSize Board::getRow()
 {
     return N;
 }
+
+Board::BoardSize Board::getCol()
+{
+    return N;
+}
+
+const std::string & Board::rowCol(BoardSize r, BoardSize c) const
+{
+    return board.at(r).at(c);
+}
+

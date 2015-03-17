@@ -1,4 +1,4 @@
-GameOfLife.out: main.o Board.o
+GameOfLife.out: main.o Board.o Simulator.o
 	g++ -std=c++11 main.o Board.o Simulator.o -o GameOfLife.out
 
 main.o : main.cpp Board.h

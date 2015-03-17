@@ -9,6 +9,8 @@ int main()
     std::cout << brd << std::endl;
 
     Simulator sim;
+    sim.simulate(brd);
+
 
 
     return 0;
