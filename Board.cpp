@@ -48,7 +48,7 @@ Board::BoardSize Board::getCol()
     return N;
 }
 
-const std::string & Board::rowCol(BoardSize r, BoardSize c) const
+std::string & Board::rowCol(BoardSize r, BoardSize c)
 {
     return board.at(r).at(c);
 }

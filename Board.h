@@ -14,7 +14,7 @@ class Board
         Board();
         BoardSize getRow();
         BoardSize getCol();
-        const  std::string& rowCol(BoardSize r, BoardSize c) const ;
+        std::string& rowCol(BoardSize r, BoardSize c);
         const  std::string& col(BoardSize c) const ;
 
     private:
