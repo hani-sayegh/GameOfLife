@@ -8,6 +8,12 @@ Simulator::Simulator()
 
 }
 
+void wait(int seconds)
+{
+    auto curr = std::chrono::system_clock::now();
+    std::chrono::seconds sec{seconds}; // A duration of 2 seconds.
+    while(std::chrono::system_clock::now() > curr + sec);
+}
 
 
 void Simulator::simulate(Board& brd)
@@ -25,14 +31,11 @@ void Simulator::simulate(Board& brd)
     //  A location with four or more neighbors will be empty in the next generation. If
     // there was a cell in that location, it dies of overcrowding.
 
-    std::chrono::time_point<std::chrono::system_clock> go, curr;
-    curr = std::chrono::system_clock::now();
-    std::chrono::duration<double> elapsed_seconds = curr - go;
-    go = std::chrono::system_clock::now();
-    std::cout << "Here I am: " << elapsed_seconds.count() << std::endl;
-    std::chrono::seconds sec(2);
+
+    auto curr = std::chrono::system_clock::now();
+    std::chrono::seconds sec{2}; // A duration of 2 seconds.
     std::cout << "Here I am: " << sec.count() << std::endl;
-    while(elapsed_seconds.count() < sec.count() )
+    while(std::chrono::system_clock::now() < curr + sec)
     {
         for (Board::BoardSize i = 0; i < brd.getRow(); ++i)
         {
@@ -99,8 +102,6 @@ void Simulator::simulate(Board& brd)
                 }
             }
         }
-        curr = std::chrono::system_clock::now();
-        elapsed_seconds = curr - go;
     }
     std::cout << brd << std::endl;
 }
