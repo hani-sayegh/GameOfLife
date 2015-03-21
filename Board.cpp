@@ -38,15 +38,11 @@ std::ostream& operator<<(std::ostream &os, const Board &brd)
     return os ;
 }
 
-Board::BoardSize Board::getRow()
+Board::BoardSize Board::size()
 {
     return N;
 }
 
-Board::BoardSize Board::getCol()
-{
-    return N;
-}
 
 std::string & Board::rowCol(BoardSize r, BoardSize c)
 {

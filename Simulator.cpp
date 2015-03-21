@@ -12,7 +12,7 @@ void wait(int seconds)
 {
     auto curr = std::chrono::system_clock::now();
     std::chrono::seconds sec{seconds}; // A duration of 2 seconds.
-    while(std::chrono::system_clock::now() > curr + sec);
+    while(std::chrono::system_clock::now() < curr + sec);
 }
 
 
@@ -35,45 +35,64 @@ void Simulator::simulate(Board& brd)
     // there was a cell in that location, it dies of overcrowding.
 
 
+    Board::BoardSize N = brd.size();
     auto curr = std::chrono::system_clock::now();
     std::chrono::seconds sec{2}; // A duration of 2 seconds.
     while(std::chrono::system_clock::now() < curr + sec)
     {
-        for (Board::BoardSize i = 0; i < brd.getRow(); ++i)
+        for (Board::BoardSize i = 0; i < N; ++i)
         {
-            for (Board::BoardSize j = 0; j < brd.getCol(); ++j)
+            for (Board::BoardSize j = 0; j < N; ++j)
             {
                 std::string alive = "* ";
                 std::string & cell = cpy.rowCol(i , j);
                 /* if(brd.rowCol(i, j) == alive ) */
                 /* { */
 
-                std::string topLeft     = brd.rowCol(i - 1, j - 1);
-                std::string topMid      = brd.rowCol(i - 1, j - 1);
-                std::string topRight    = brd.rowCol(i - 1, j - 1);
-                std::string bottomLeft  = brd.rowCol(i - 1, j - 1);
+                bool firstRow = i == 0;
+                bool firstCol = j == 0;
+                bool lastCol = j == N;
+                bool lastRow = i == N;
+
+                unsigned neighbors = 0;
+                if(!(firstRow && firstCol))
+                {
+                    std::string topLeft     = brd.rowCol(i - 1, j - 1);
+                    if (topLeft == alive)
+                    {
+                        ++neighbors;
+                    }
+                }
+                if(!firstRow)
+                {
+                    std::string topMid      = brd.rowCol(i - 1, j - 1);
+                    if (topMid == alive)
+                    {
+                        ++neighbors;
+                    }
+                }
+                if(!(firstRow && lastCol))
+                {
+                    std::string topRight    = brd.rowCol(i - 1, j - 1);
+                    if (topRight == alive)
+                    {
+                        ++neighbors;
+                    }
+                }
+                if(!(firstCol && lastRow))
+                {
+                    std::string bottomLeft  = brd.rowCol(i - 1, j - 1);
+                    if (bottomLeft == alive)
+                    {
+                        ++neighbors;
+                    }
+                }
                 std::string bottomMid   = brd.rowCol(i - 1, j - 1);
                 std::string bottomRight = brd.rowCol(i - 1, j - 1);
                 std::string sideLeft    = brd.rowCol(i - 1, j - 1);
                 std::string sideRight   = brd.rowCol(i - 1, j - 1);
 
-                unsigned neighbors = 0;
-                if (topLeft == alive)
-                {
-                    ++neighbors;
-                }
-                if (topMid == alive)
-                {
-                    ++neighbors;
-                }
-                if (topRight == alive)
-                {
-                    ++neighbors;
-                }
-                if (bottomLeft == alive)
-                {
-                    ++neighbors;
-                }
+
                 if (bottomMid == alive)
                 {
                     ++neighbors;
