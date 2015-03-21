@@ -1,7 +1,7 @@
-#include "Simulator.h"
-#include "Board.h"
 #include <iostream>
 #include <chrono>
+
+#include "Simulator.h"
 
 Simulator::Simulator()
 {
@@ -18,7 +18,10 @@ void wait(int seconds)
 
 void Simulator::simulate(Board& brd)
 {
+    Board cpy = brd;
 
+    // A location that has zero or one neighbors will be empty in the next generation. If
+    // a cell was in that location, it dies of loneliness.
     // A live cell with fewer than 2 live neighbors dies.
     //
     // A location with two neighbors is stable—that is, if it contained a cell, it still
@@ -34,7 +37,6 @@ void Simulator::simulate(Board& brd)
 
     auto curr = std::chrono::system_clock::now();
     std::chrono::seconds sec{2}; // A duration of 2 seconds.
-    std::cout << "Here I am: " << sec.count() << std::endl;
     while(std::chrono::system_clock::now() < curr + sec)
     {
         for (Board::BoardSize i = 0; i < brd.getRow(); ++i)
@@ -42,64 +44,65 @@ void Simulator::simulate(Board& brd)
             for (Board::BoardSize j = 0; j < brd.getCol(); ++j)
             {
                 std::string alive = "* ";
-                std::string & cell = brd.rowCol(i , j);
-                if(cell == alive )
-                {
-                    std::string topLeft = brd.rowCol(i - 1, j - 1);
-                    std::string topMid = brd.rowCol(i - 1, j - 1);
-                    std::string topRight = brd.rowCol(i - 1, j - 1);
-                    std::string bottomLeft = brd.rowCol(i - 1, j - 1);
-                    std::string bottomMid = brd.rowCol(i - 1, j - 1);
-                    std::string bottomRight = brd.rowCol(i - 1, j - 1);
-                    std::string sideLeft = brd.rowCol(i - 1, j - 1);
-                    std::string sideRight = brd.rowCol(i - 1, j - 1);
+                std::string & cell = cpy.rowCol(i , j);
+                /* if(brd.rowCol(i, j) == alive ) */
+                /* { */
 
-                    unsigned neighbors = 0;
-                    if (topLeft == alive)
-                    {
-                        ++neighbors;
-                    }
-                    if (topMid == alive)
-                    {
-                        ++neighbors;
-                    }
-                    if (topRight == alive)
-                    {
-                        ++neighbors;
-                    }
-                    if (bottomLeft == alive)
-                    {
-                        ++neighbors;
-                    }
-                    if (bottomMid == alive)
-                    {
-                        ++neighbors;
-                    }
-                    if (bottomRight == alive)
-                    {
-                        ++neighbors;
-                    }
-                    if (sideLeft == alive)
-                    {
-                        ++neighbors;
-                    }
-                    if (sideRight == alive)
-                    {
-                        ++neighbors;
-                    }
-                    if(neighbors < 2)
-                    {
-                        cell = "# ";
-                    }
-                    else if(neighbors == 3)
-                    {
-                        cell = "* ";
-                    }
-                    else if (neighbors == 4)
-                    {
-                        cell = "# ";
-                    }
+                std::string topLeft     = brd.rowCol(i - 1, j - 1);
+                std::string topMid      = brd.rowCol(i - 1, j - 1);
+                std::string topRight    = brd.rowCol(i - 1, j - 1);
+                std::string bottomLeft  = brd.rowCol(i - 1, j - 1);
+                std::string bottomMid   = brd.rowCol(i - 1, j - 1);
+                std::string bottomRight = brd.rowCol(i - 1, j - 1);
+                std::string sideLeft    = brd.rowCol(i - 1, j - 1);
+                std::string sideRight   = brd.rowCol(i - 1, j - 1);
+
+                unsigned neighbors = 0;
+                if (topLeft == alive)
+                {
+                    ++neighbors;
                 }
+                if (topMid == alive)
+                {
+                    ++neighbors;
+                }
+                if (topRight == alive)
+                {
+                    ++neighbors;
+                }
+                if (bottomLeft == alive)
+                {
+                    ++neighbors;
+                }
+                if (bottomMid == alive)
+                {
+                    ++neighbors;
+                }
+                if (bottomRight == alive)
+                {
+                    ++neighbors;
+                }
+                if (sideLeft == alive)
+                {
+                    ++neighbors;
+                }
+                if (sideRight == alive)
+                {
+                    ++neighbors;
+                }
+                if(neighbors < 2)
+                {
+                    cell = "# ";
+                }
+                else if(neighbors == 3)
+                {
+                    cell = "* ";
+                }
+                else if (neighbors == 4)
+                {
+                    cell = "# ";
+                }
+                /* } */
             }
         }
     }
