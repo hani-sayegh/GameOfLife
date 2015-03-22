@@ -49,13 +49,14 @@ void Simulator::simulate(Board& brd)
                 /* if(brd.rowCol(i, j) == alive ) */
                 /* { */
 
-                bool firstRow = i == 0;
-                bool firstCol = j == 0;
-                bool lastCol = j == N;
-                bool lastRow = i == N;
+                bool firstRow = (i == 0);
+                bool lastRow  = (i == N - 1);
+                bool firstCol = (j == 0);
+                bool lastCol  = (j == N - 1);
 
                 unsigned neighbors = 0;
-                if(!(firstRow && firstCol))
+
+                if(!(firstRow || firstCol))
                 {
                     std::string topLeft     = brd.rowCol(i - 1, j - 1);
                     if (topLeft == alive)
@@ -65,49 +66,60 @@ void Simulator::simulate(Board& brd)
                 }
                 if(!firstRow)
                 {
-                    std::string topMid      = brd.rowCol(i - 1, j - 1);
+                    std::string topMid      = brd.rowCol(i - 1, j);
                     if (topMid == alive)
                     {
                         ++neighbors;
                     }
                 }
-                if(!(firstRow && lastCol))
+                if(!(firstRow || lastCol))
                 {
-                    std::string topRight    = brd.rowCol(i - 1, j - 1);
+                    std::string topRight    = brd.rowCol(i - 1, j + 1);
                     if (topRight == alive)
                     {
                         ++neighbors;
                     }
                 }
-                if(!(firstCol && lastRow))
+                if(!(firstCol || lastRow))
                 {
-                    std::string bottomLeft  = brd.rowCol(i - 1, j - 1);
+                    std::string bottomLeft  = brd.rowCol(i + 1, j - 1);
                     if (bottomLeft == alive)
                     {
                         ++neighbors;
                     }
                 }
-                std::string bottomMid   = brd.rowCol(i - 1, j - 1);
-                std::string bottomRight = brd.rowCol(i - 1, j - 1);
-                std::string sideLeft    = brd.rowCol(i - 1, j - 1);
-                std::string sideRight   = brd.rowCol(i - 1, j - 1);
+                if(!(lastRow))
+                {
+                    std::string bottomMid   = brd.rowCol(i + 1, j);
+                    if (bottomMid == alive)
+                    {
+                        ++neighbors;
+                    }
+                }
+                if(!(lastCol || lastRow))
+                {
+                    std::string bottomRight = brd.rowCol(i + 1, j + 1);
+                    if(bottomRight == alive)
+                    {
+                        ++neighbors;
+                    }
+                }
 
-
-                if (bottomMid == alive)
+                if(!(firstCol))
                 {
-                    ++neighbors;
+                    std::string sideLeft    = brd.rowCol(i, j - 1);
+                    if (sideLeft == alive)
+                    {
+                        ++neighbors;
+                    }
                 }
-                if (bottomRight == alive)
+                if(!(lastCol))
                 {
-                    ++neighbors;
-                }
-                if (sideLeft == alive)
-                {
-                    ++neighbors;
-                }
-                if (sideRight == alive)
-                {
-                    ++neighbors;
+                    std::string sideRight   = brd.rowCol(i, j + 1);
+                    if (sideRight == alive)
+                    {
+                        ++neighbors;
+                    }
                 }
                 if(neighbors < 2)
                 {
